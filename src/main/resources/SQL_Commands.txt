@@ -1,0 +1,5 @@
+# Create new database for new service
+CREATE DATABASE ecom_user;
+
+# List all databases within postgres
+SELECT datname FROM pg_database;

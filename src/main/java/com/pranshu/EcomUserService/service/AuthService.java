@@ -12,7 +12,6 @@ import com.pranshu.EcomUserService.repository.SessionRepository;
 import com.pranshu.EcomUserService.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.MacAlgorithm;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
