@@ -35,15 +35,6 @@ public class AuthService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public ResponseEntity<List<Session>> getAllSession(){
-        List<Session> sessions = sessionRepository.findAll();
-        return ResponseEntity.ok(sessions);
-    }
-
-    public ResponseEntity<List<User>> getAllUsers(){
-        return ResponseEntity.ok(userRepository.findAll());
-    }
-
     public ResponseEntity<UserDto> login(String email, String password) {
         //Get user details from DB
         Optional<User> userOptional = userRepository.findByEmail(email);
@@ -51,10 +42,12 @@ public class AuthService {
             throw new UserNotFoundException("User for the given email id does not exist");
         }
         User user = userOptional.get();
+
         //Verify the user password given at the time of login
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
             throw new InvalidCredentialException("Invalid Credentials");
         }
+
         //token generation
         //String token = RandomStringUtils.randomAlphanumeric(30);
         MacAlgorithm alg = Jwts.SIG.HS256; // HS256 algo added for JWT
@@ -72,7 +65,6 @@ public class AuthService {
                 .signWith(key, alg) // added the algo and key
                 .compact(); //building the token
 
-
         //session creation
         Session session = new Session();
         session.setSessionStatus(SessionStatus.ACTIVE);
@@ -80,8 +72,10 @@ public class AuthService {
         session.setUser(user);
         session.setLoginAt(new Date());
         sessionRepository.save(session);
+
         //generating the response
         UserDto userDto = UserEntityDTOMapper.getUserDTOFromUserEntity(user);
+
         //setting up the headers
         MultiValueMapAdapter<String, String> headers = new MultiValueMapAdapter<>(new HashMap<>());
         headers.add(HttpHeaders.SET_COOKIE, token);
@@ -119,11 +113,24 @@ public class AuthService {
         return SessionStatus.ACTIVE;
     }
 
+    public ResponseEntity<List<Session>> getAllSession(){
+        List<Session> sessions = sessionRepository.findAll();
+        return ResponseEntity.ok(sessions);
+    }
+
+    public ResponseEntity<List<User>> getAllUsers(){
+        return ResponseEntity.ok(userRepository.findAll());
+    }
+
 }
+
 /*
     MultiValueMapAdapter is map with single key and multiple values
-    Headers
+    Recommended Data Structure for Headers
     Key     Value
-    Token   """
+    Token   ""
     Accept  application/json, text, images
+
+    "Set-Cookie" is an industry standard key-name
+    whenever client calls the server, it expects a token in this response header
  */

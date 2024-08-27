@@ -39,7 +39,6 @@ public class AuthController {
     @PostMapping("/validate")
     public ResponseEntity<SessionStatus> validateToken(@RequestBody ValidateTokenRequestDto request) {
         SessionStatus sessionStatus = authService.validate(request.getToken(), request.getUserId());
-
         return new ResponseEntity<>(sessionStatus, HttpStatus.OK);
     }
 
@@ -54,3 +53,14 @@ public class AuthController {
         return authService.getAllUsers();
     }
 }
+
+/*
+Evolution of Authentication
+1. Basic login flow
+2. Store password in encoded manner
+    a. Imported Spring Security
+    b. SpringSecurity Configuration class
+    c. bCrypt matcher to compare passwords
+<401 Unauthorised in Postman>
+3.
+ */
