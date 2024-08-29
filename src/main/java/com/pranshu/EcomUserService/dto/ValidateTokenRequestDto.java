@@ -9,3 +9,7 @@ public class ValidateTokenRequestDto {
     private Long userId;
     private String token;
 }
+
+/*
+Token shouldn't be a part of payload in actual systems, it should be in header
+ */

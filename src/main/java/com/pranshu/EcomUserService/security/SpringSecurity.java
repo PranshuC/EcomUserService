@@ -26,8 +26,3 @@ public class SpringSecurity {
         return new BCryptPasswordEncoder();
     }
 }
-
-/*
-SpringSecurity doesn't allow any non-authorized API to be accessed without a token.
-So, need SecurityFilterChain to allow few APIs to be accessed without a token.
- */

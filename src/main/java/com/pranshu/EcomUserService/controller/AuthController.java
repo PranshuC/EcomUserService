@@ -54,13 +54,3 @@ public class AuthController {
     }
 }
 
-/*
-Evolution of Authentication
-1. Basic login flow
-2. Store password in encoded manner
-    a. Imported Spring Security
-    b. SpringSecurity Configuration class
-    c. bCrypt matcher to compare passwords
-<401 Unauthorised in Postman>
-3.
- */
