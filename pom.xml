@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<jsonwebtoken.version>0.12.3</jsonwebtoken.version>
+		<flyway.version>10.15.2</flyway.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -74,7 +75,13 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
-			<version>9.22.2</version>
+			<version>${flyway.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+			<version>${flyway.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

@@ -3,10 +3,11 @@
 ### Backend Projects: Authentication and Middlewares [11-12-23]
 1. Implementation of basic User, Role & Session models
 2. Implementation of basic User, Role & Auth controller methods
-   <br><br>
-   Evolution of Authentication
-- Basic login flow
-- Store password in encoded manner <br>
+
+
+**Evolution of Authentication**
+ - Basic login flow <br>
+ - Store password in encoded manner <br>
    a. Imported Spring Security <br>
    b. SpringSecurity Configuration class <br>
    c. bCrypt matcher to compare passwords <401 Unauthorised in Postman>
@@ -37,3 +38,22 @@ When SSO using Azure LDAP, 1 SecretKey against 1 user.
 Multiple sessions of the user will be validated against 1 SecretKey. <br>
 https://jwt.io/ - Website to see decoded JWT token.
 
+### Backend Projects: DB Scripts and Migration [18-12-23]
+1. Flyway/ Liquibase for DB migration - simplifies managing and applying changes to database schema. <br>
+
+**IntelliJ Flyway Settings :** <br>
+IntelliJ Ultimate -> Persistence (side-icon) -> (+) -> <project>(right-click) -> New -> Flyway Init Migration <br>
+(pop-up) Source Type: Model -> Save As: File; Destination: src/main/resources/db/migration; Name: V1_init_db.sql <br>
+Destination path is important as Flyway will look for migration scripts. Verify the SQL scripts - as per Project need <br>
+
+application.properties : spring.jpa.hibernate.ddl-auto=none <br>
+With **none** value application comes up fine even if tables are deleted from DB.
+So, at least **validate** should be the value (application starts only if verified). <br>
+**create, create-drop, update** values aren't used in production code.
+
+After adding Flyway script, run application to get tables created (drop previously created ones).
+1 additional **flyway_schema_history** table to maintain the time & version of script run.
+In production, CUD operations' access are removed on this table, only Read. <br>
+**checksum** column in this table is hash of all changes to the script.
+Ex : If script modified, anyone can cross-check checksum hash value mismatch & caught.
+So, same-named script file will fail to run, mentioning tampered.

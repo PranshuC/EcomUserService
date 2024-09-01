@@ -10,7 +10,6 @@ import com.pranshu.EcomUserService.repository.SessionRepository;
 import com.pranshu.EcomUserService.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.MacAlgorithm;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
