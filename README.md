@@ -74,3 +74,17 @@ different domain than the one that served the page. Need to be disabled by defau
 CSRF (Cross-Site Request Forgery) - An attack that forces authenticated users to submit a request to a Web application 
 against which they are currently authenticated. Disabled.
 
+
+### Backend Projects: O Auth2 Authorization Server [15-01-24]
+1. Build OAuth2 Authorization Server <br>
+Dependency : spring-boot-starter-oauth2-authorization-server <br>
+Class CustomSpringUserDetails (implement UserDetails) - needed for OAuth <br>
+CustomSpringUserDetailsService (implement UserDetailsService) - loadUserByUsername
+
+SpringSecurity -> class for basic auth -> login(email + password) based <br>
+SecurityConfig -> OAuth based configuration
+
+OpenID Connect : Industry standard for all the steps inside Authentication & Authorization for OAuth based protocols. <br>
+Refresh token : allows to have short-lived access tokens without having to collect credentials every time one expires.
+
+Become a registered client at Google's Auth Service (configuration)
