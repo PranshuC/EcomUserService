@@ -14,6 +14,7 @@ import java.util.Set;
 public class User extends BaseModel {
     private String email;
     private String password;
+    private String phoneNumber;
     @ManyToMany
     private Set<Role> roles = new HashSet<>();
 }

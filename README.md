@@ -87,4 +87,49 @@ SecurityConfig -> OAuth based configuration
 OpenID Connect : Industry standard for all the steps inside Authentication & Authorization for OAuth based protocols. <br>
 Refresh token : allows to have short-lived access tokens without having to collect credentials every time one expires.
 
-Become a registered client at Google's Auth Service (configuration)
+Become a registered client at Google's Auth Service (configuration) <br>
+Here, ProductService is client to UserService
+
+
+### Backend Projects: Finishing Our Authentication Service [16-01-24]
+1. Security Models : Authorization, AuthorizationConsent <br>
+AuthorizationConsent : User's consent to share specific authorities with a client. Ex : Google pop-up
+2. Security Models : Client, Authorization, AuthorizationConsent
+3. Security Repositories : ClientRepository, AuthorizationRepository, AuthorizationConsentRepository, JpaRegisteredClientRepository
+4. Security Services : JpaOAuth2AuthorizationService, JpaOAuth2AuthorizationConsentService
+5. V3__addSpringSecurityTables.sql : Flyway script to create Client, Authorization, AuthorizationConsent tables
+
+RegisteredClientRepository : Spring Security's default implementation uses InMemory Arrays.asList Repository <br>
+But we need to use DB to save the multiple client details. <br>
+So, we'll use security.repository.JpaRegisteredClientRepository for all client related activities.
+
+http://localhost:9090/login - comes from Spring Security package
+
+References : <br>
+https://docs.spring.io/spring-authorization-server/reference/getting-started.html <br>
+https://www.toptal.com/spring/spring-boot-oauth2-jwt-rest-protection <br>
+https://github.com/spring-projects/spring-security-samples/tree/6.2.x/servlet/spring-boot/java/oauth2/login <br>
+
+Fundamental APIs for auth are already given by Spring Security OAuth2
+1. /login
+2. /logout
+3. /signup
+4. /validate -> to validate the token from Resource Service to Auth Service
+5. /register -> registering a new client [ basically the service which will rely on Auth Service for authentication ]
+
+Companies have Central AuthService (OAuth) <br>
+User login -> customer login <br>
+All the micro-services will be client to this central service
+
+Employees login <br>
+Framework : SSO (Single Sign On) -> single way to sign-in everyone <br>
+Implementation : LDAP(Lightweight Directory Access Protocol) based authentication <br>
+Only knowing username-password wouldn't help, Hardware-based authentication <br>
+New company laptop has a directory with user details, roles, keys <br>
+(Active Directories -> only the admin user of the device can access) <br>
+While login, hardware information is verified by the service <br>
+Sometimes, VPN is used and hardware verification is done via apps like Duo Mobile.
+
+Homework -> Explore how GitHub login from terminal works, Explore how terminal talks to other services like GitHub
+
+
