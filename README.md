@@ -133,3 +133,23 @@ Sometimes, VPN is used and hardware verification is done via apps like Duo Mobil
 Homework -> Explore how GitHub login from terminal works, Explore how terminal talks to other services like GitHub
 
 
+### Backend Projects: Dockerizing Applications [22-01-24]
+1. Introduction to AWS console. Explain EC2 & RDS services.
+2. Plan for next classes about creating RDS instances and connecting to apps.
+
+
+### Backend Projects: Deploying Applications To Aws [23-01-24]
+1. Create user-service-db RDS (PostgreSQL DB) in AWS. <br>
+Free Tier(t3.micro) & Public accessible <br>
+Security Group > Inbound rule > All traffic from anywhere
+2. Connect with EcomUserService using spring.datasource.url, username & password
+3. Create Elastic Beanstalk environment for EcomUserService
+
+
+### Backend Projects: Implementing Payment Gateway 1 [25-01-24]
+1. EC2 instance for UserService
+2. Static IPs : Networking and Security > Elastic IPs (Associate address to EC2 instance)
+3. Docker - DockerFile
+   https://aw.club/global/en/blog/how-to-dockerize-spring-boot-application
+
+
