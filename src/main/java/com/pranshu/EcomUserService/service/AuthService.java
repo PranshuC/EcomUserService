@@ -1,5 +1,8 @@
 package com.pranshu.EcomUserService.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pranshu.EcomUserService.dto.JwtPayloadDTO;
 import com.pranshu.EcomUserService.dto.UserDto;
 import com.pranshu.EcomUserService.exception.*;
 import com.pranshu.EcomUserService.mapper.UserEntityDTOMapper;
@@ -54,8 +57,9 @@ public class AuthService {
         SecretKey key = alg.key().build(); // generating the secret key
 
         // Start adding the claims
-        Date expiryAt = new Date(LocalDate.now().plusDays(3).toEpochDay());
+        Date expiryAt = java.sql.Date.valueOf(LocalDate.now().plusDays(3));
         Map<String, Object> jsonForJWT = new HashMap<>();
+        //jsonForJWT.put("email", user.getEmail()); // username/emailId is more vulnerable data of user
         jsonForJWT.put("userId", user.getId());
         jsonForJWT.put("roles", user.getRoles());
         jsonForJWT.put("createdAt", new Date());
@@ -96,9 +100,10 @@ public class AuthService {
         return ResponseEntity.ok().build();
     }
 
-    public UserDto signUp(String email, String password) {
+    public UserDto signUp(String email, String phoneNumber, String password) {
         User user = new User();
         user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
         user.setPassword(bCryptPasswordEncoder.encode(password));
         User savedUser = userRepository.save(user);
         return UserDto.from(savedUser);
@@ -106,9 +111,9 @@ public class AuthService {
 
     public SessionStatus validate(String token, Long userId) {
         // Check token expiry
-        /*if(isTokenExpired(token)) {
+        if(isTokenExpired(token)) {
             throw new TokenExpiredException("Token has expired");
-        }*/
+        }
 
         // Verifying from DB if session exists
         Optional<Session> sessionOptional = sessionRepository.findByTokenAndUser_Id(token, userId);
@@ -119,16 +124,23 @@ public class AuthService {
     }
 
     /**
-     * Jwts Parser -> parse the encoded JWT token to read the "expiryAt" claim.
+     * Parse the encoded JWT token, decode payload part to read the "expiryAt" claim.
+     * If the expiryAt is before the current date, then the token is expired.
      * @param token
-     * @return boolean : true if token is expired, false otherwise
+     * @return true if token is expired, false otherwise
      */
-    public boolean isTokenExpired(String token) {
-        Claims claims = Jwts.parser()
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        Date expiryAt = claims.get("expiryAt", Date.class);
+    private boolean isTokenExpired(String token) {
+        String[] chunks = token.split("\\."); //token=header.payload.signature
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+        String payload = new String(decoder.decode(chunks[1]));
+        ObjectMapper mapper = new ObjectMapper();
+        JwtPayloadDTO jwtPayload = null;
+        try {
+            jwtPayload = mapper.readValue(payload, JwtPayloadDTO.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        Date expiryAt = new Date(jwtPayload.getExpiryAt());
         return expiryAt.before(new Date());
     }
 

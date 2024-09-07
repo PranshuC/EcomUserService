@@ -71,6 +71,7 @@ public class SecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
         http.authorizeHttpRequests((authorize) -> authorize
+                //.anyRequest().authenticated()) // /auth/signup - goes to OAuth Login page
                 .anyRequest().permitAll())
             // Form login handles the redirect to the login page from the
             // authorization server filter chain

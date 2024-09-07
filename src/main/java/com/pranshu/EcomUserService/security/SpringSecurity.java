@@ -11,8 +11,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringSecurity {
 
     // Replacing Basic Auth with OAuth
-    /*@Order(1)
     @Bean
+    @Order(1)
     public SecurityFilterChain filteringCriteria(HttpSecurity http) throws Exception {
         http.cors().disable();
         http.csrf().disable();
@@ -20,7 +20,7 @@ public class SpringSecurity {
         //http.authorizeRequests(authorize -> authorize.requestMatchers("/order/*").authenticated());
         http.authorizeRequests(authorize -> authorize.anyRequest().permitAll());
         return http.build();
-    }*/
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){

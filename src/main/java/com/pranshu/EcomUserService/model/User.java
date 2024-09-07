@@ -1,6 +1,7 @@
 package com.pranshu.EcomUserService.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ public class User extends BaseModel {
     private String email;
     private String password;
     private String phoneNumber;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 }
 /*

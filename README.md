@@ -138,7 +138,7 @@ Homework -> Explore how GitHub login from terminal works, Explore how terminal t
 2. Plan for next classes about creating RDS instances and connecting to apps.
 
 
-### Backend Projects: Deploying Applications To Aws [23-01-24]
+### Backend Projects: Deploying Applications To AWS [23-01-24]
 1. Create user-service-db RDS (PostgreSQL DB) in AWS. <br>
 Free Tier(t3.micro) & Public accessible <br>
 Security Group > Inbound rule > All traffic from anywhere
@@ -151,5 +151,17 @@ Security Group > Inbound rule > All traffic from anywhere
 2. Static IPs : Networking and Security > Elastic IPs (Associate address to EC2 instance)
 3. Docker - DockerFile
    https://aw.club/global/en/blog/how-to-dockerize-spring-boot-application
+
+
+### Backend Projects: Implementing Search: Paging, Sorting, Elastic Search [29-01-24]
+1. Use customAPIs to connect ProductService with UserService
+2. Verify the UserService > AuthController "/validate "API.
+3. Validate User by decoding Token > Payload
+
+OAuth2Service does make sense, if Google-type log-in option is required. <br>
+But, we just need internal-connect between microservices, so custom APIs give flexibility <br>
+to implement LDAP server etc.
+
+Token should never be validated in Service layer. Do in Controller, better even before it using SpringSecurity
 
 
