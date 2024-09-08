@@ -140,14 +140,17 @@ Homework -> Explore how GitHub login from terminal works, Explore how terminal t
 
 ### Backend Projects: Deploying Applications To AWS [23-01-24]
 1. Create user-service-db RDS (PostgreSQL DB) in AWS. <br>
-Free Tier(t3.micro) & Public accessible <br>
+Free Tier(db.t3.micro), ap-southeast-2a & Public accessible <br>
 Security Group > Inbound rule > All traffic from anywhere
-2. Connect with EcomUserService using spring.datasource.url, username & password
+2. Connect with EcomUserService using spring.datasource.url, username & password <br>
+   (AWS (RDS) > Connectivity & security > Endpoint & Port)
 3. Create Elastic Beanstalk environment for EcomUserService
 
 
 ### Backend Projects: Implementing Payment Gateway 1 [25-01-24]
-1. EC2 instance for UserService
+1. EC2 instance(t2.micro) for UserService <br>
+   (Ubuntu; Allow SSH, HTTP, HTTPS; ap-southeast-2b) <br>
+   (Edit Inbound rules (Add rule) > Type : All TCP, Source : Anywhere IPv4 OR Custom TCP -> Port 8080)
 2. Static IPs : Networking and Security > Elastic IPs (Associate address to EC2 instance)
 3. Docker - DockerFile
    https://aw.club/global/en/blog/how-to-dockerize-spring-boot-application
@@ -163,5 +166,31 @@ But, we just need internal-connect between microservices, so custom APIs give fl
 to implement LDAP server etc.
 
 Token should never be validated in Service layer. Do in Controller, better even before it using SpringSecurity
+
+
+### Backend Projects: Creating Payment Microservice, Cron And Webhooks [30-01-24]
+1. Validate API completed : ProductService > UserService
+2. Create **RDS** in AWS for ProductService & UserService. <br>
+   (Creating > Configuring-enhanced-monitoring > Backing-up > Available)
+3. Create 2 **EC2** instances. Use .pem file to connect to EC2 instance. <br>
+   (SSH into EC2 instance, Install Java, JAVA_HOME path, tomcate, maven)
+```shell
+sudo apt-get update
+sudo apt install default-jdk
+java -version #11.0.21 - default from apt
+sudo nano /etc/environment # JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/bin/java"
+#sudo apt-get install tomcat9
+wget <downloads.apache/tomcat-9 link>
+tar -zvxf apache-tomcat-9.0.85.tar.gz
+sudo apt install maven
+```
+4. (If problem above) Create **Elastic Beanstalk** (managed-EC2, configured auto-scaling) <br>
+   (Web server environment, Platform(Managed):Tomcat, Application code:Local file(project's war), Single instance(free tier eligible)) <br>
+   (Configure service access > EC2 key pair(.pem file), Architecture:arm64(cheaper))
+
+AOP Concept - @ControllerAdvice [GlobalControllerAdvice.class] <br>
+This will be called when globally anywhere Exception occurs (InvalidTokenException,TokenExpiredException)
+
+AWS Lambda -> FunctionAsAService (FaaS), Serverless (Server not occupied all-time), cold-start mode (won't be up, unless called), down most time(cheaper)
 
 
