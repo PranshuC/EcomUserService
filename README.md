@@ -109,6 +109,7 @@ References : <br>
 https://docs.spring.io/spring-authorization-server/reference/getting-started.html <br>
 https://www.toptal.com/spring/spring-boot-oauth2-jwt-rest-protection <br>
 https://github.com/spring-projects/spring-security-samples/tree/6.2.x/servlet/spring-boot/java/oauth2/login <br>
+https://medium.com/@tanmaysaxena2904/spring-security-the-security-filter-chain-e09e1f53b73d
 
 Fundamental APIs for auth are already given by Spring Security OAuth2
 1. /login
