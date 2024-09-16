@@ -2,7 +2,9 @@ package com.pranshu.ecomuserservice.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pranshu.ecomuserservice.config.KafkaProducerConfig;
 import com.pranshu.ecomuserservice.dto.JwtPayloadDTO;
+import com.pranshu.ecomuserservice.dto.SendEmailDto;
 import com.pranshu.ecomuserservice.dto.UserDto;
 import com.pranshu.ecomuserservice.exception.*;
 import com.pranshu.ecomuserservice.mapper.UserEntityDTOMapper;
@@ -30,11 +32,17 @@ public class AuthService {
     private UserRepository userRepository;
     private SessionRepository sessionRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private KafkaProducerConfig kafkaProducerConfig;
+    private ObjectMapper objectMapper;
 
-    public AuthService(UserRepository userRepository, SessionRepository sessionRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AuthService(UserRepository userRepository, SessionRepository sessionRepository,
+                       BCryptPasswordEncoder bCryptPasswordEncoder, KafkaProducerConfig kafkaProducerConfig,
+                       ObjectMapper objectMapper) {
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.kafkaProducerConfig = kafkaProducerConfig;
+        this.objectMapper = objectMapper;
     }
 
     public ResponseEntity<UserDto> login(String email, String password) {
@@ -105,6 +113,19 @@ public class AuthService {
         user.setPhoneNumber(phoneNumber);
         user.setPassword(bCryptPasswordEncoder.encode(password));
         User savedUser = userRepository.save(user);
+
+        // If user has signed up successfully, push event
+        try {
+            SendEmailDto sendEmailDto = new SendEmailDto();
+            sendEmailDto.setTo(savedUser.getEmail());
+            sendEmailDto.setSubject("Welcome to Ecom App");
+            sendEmailDto.setBody("You have successfully signed up to Ecom App");
+            sendEmailDto.setFrom("pranshu.c1@gmail.com");
+            kafkaProducerConfig.sendMessage("signUp", objectMapper.writeValueAsString(sendEmailDto));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         return UserDto.from(savedUser);
     }
 

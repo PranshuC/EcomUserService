@@ -1,4 +1,4 @@
-# EcomUserService
+# ECommerce Project - User Service
 
 ### Backend Projects: Authentication and Middlewares [11-12-23]
 1. Implementation of basic User, Role & Session models
@@ -195,3 +195,30 @@ This will be called when globally anywhere Exception occurs (InvalidTokenExcepti
 AWS Lambda -> FunctionAsAService (FaaS), Serverless (Server not occupied all-time), cold-start mode (won't be up, unless called), down most time(cheaper)
 
 
+### Backend Projects: Notification Service [28-02-24]
+1. Amazon **Simple Email Service** (SES) : Create a domain, verify to send bulk-notifications
+
+References : <br>
+https://www.baeldung.com/spring-kafka <br>
+https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka <br>
+https://reflectoring.io/spring-cloud-aws-ses/ <br>
+https://github.com/MLP-07/Notification-Service (Sample Notification Service) <br>
+https://stackoverflow.com/questions/42471870/publish-subscribe-vs-producer-consumer
+
+
+### Backend Projects: Implementing Kafka [29-02-24]
+1. Install Kafka locally : brew install kafka <br>
+(Start Zookeeper, Start Kafka, Create Topic, List Topics, Start Producer, Start Consumer)
+2. config/KafkaProducerConfig <br>
+This is a Producer for Kafka. Whenever we need to add an event to Kafka, we'll use this Producer.
+3. SendEmailDto (Email Notification Details), AuthService.signUp (Kafka message sent on successful sign-up) <br>
+sendEmailDto.setFrom -> needs to be domain owner's email id
+
+Why message being sent to Kafka is String? <br>
+Message is sent in a serialized form. We'll have to serialize the object before sending it to Kafka using ObjectMapper.
+
+References : <br>
+https://learn.conduktor.io/kafka/how-to-install-apache-kafka-on-mac/ <br>
+https://www.baeldung.com/jackson-object-mapper-tutorial <br>
+https://support.google.com/a/answer/176600 (Send email via Gmail Server) <br>
+https://www.digitalocean.com/community/tutorials/javamail-example-send-mail-in-java-smtp

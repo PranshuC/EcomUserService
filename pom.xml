@@ -33,17 +33,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -55,6 +46,13 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.13.0</version>
 		</dependency>
+		<!-- PostgreSQL -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- JSON Web Token -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -72,6 +70,7 @@
 			<version>${jsonwebtoken.version}</version>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- FlywayDB -->
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
@@ -83,6 +82,7 @@
 			<version>${flyway.version}</version>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- Spring OAuth2 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
@@ -91,6 +91,12 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-cas</artifactId>
 			<version>5.7.1</version>
+		</dependency>
+		<!-- Spring Kafka -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>3.2.0</version>
 		</dependency>
 	</dependencies>
 
