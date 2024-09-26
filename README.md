@@ -222,3 +222,13 @@ https://learn.conduktor.io/kafka/how-to-install-apache-kafka-on-mac/ <br>
 https://www.baeldung.com/jackson-object-mapper-tutorial <br>
 https://support.google.com/a/answer/176600 (Send email via Gmail Server) <br>
 https://www.digitalocean.com/community/tutorials/javamail-example-send-mail-in-java-smtp
+
+
+### Backend Project: Spring Cloud [05-03-24]
+1. EcomServiceDiscovery project : Eureka server
+2. eureka-client dependency, application.properties : eureka.client...=true <br>
+   (spring.application.name property is required for Eureka to recognize MS)
+2. Edit Configurations > Environment Variables : ${SERVER_PORT} -> dynamic diff values <br>
+   (Running multiple instances with different ports : Multiple registrations in Eureka server)
+
+
